@@ -13,15 +13,16 @@ Legalizer is an innovative application designed to assist users in summarizing l
 ```
 legalizer
 ├── src
-│   ├── app.py                # Main application file
+│   ├── app.py                
 │   ├── static
 │   │   ├── css
-│   │   │   └── styles.css    # CSS styles for the application
+│   │   │   └── styles.css    
 │   ├── templates
-│   │   ├── index.html        # Landing page template
-│   │   └── chat.html         # Chat interface template
-├── requirements.txt          # Python dependencies
-└── README.md                 # Project documentation
+│   │   ├── index.html        
+│   │   └── chat.html         
+│   │   └── landing.html      
+├── requirements.txt          
+└── README.md                 
 ```
 
 ## Installation
@@ -31,7 +32,7 @@ To set up the project, follow these steps:
 1. Clone the repository:
    ```
    git clone <repository-url>
-   cd legalizer
+   cd Legalizer
    ```
 
 2. Install the required dependencies:
@@ -51,12 +52,6 @@ To set up the project, follow these steps:
 2. Open your web browser and navigate to `http://127.0.0.1:5000` to access the landing page.
 
 3. Click on the "Chat Now" button to enter the chat interface, where you can upload documents and interact with the AI.
-
-## Contributors
-
-- [Your Name](https://github.com/yourprofile) - Project Lead
-- [Contributor Name](https://github.com/contributorprofile) - Developer
-- [Contributor Name](https://github.com/contributorprofile) - Designer
 
 ## License
 
