@@ -1,0 +1,8 @@
+Flask
+groq
+python-dotenv
+werkzeug
+Pillow
+PyPDF2
+pytesseract
+easyocr

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legalizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Legalizer</h1>
+            <p>Chat with our AI to get legal advice and document summaries.</p>
+        </header>
+        <main>
+            <section class="chat-section">
+                <div id="chatArea">
+                    <div id="messages"></div>
+                    <div id="loadingSpinner" class="spinner" style="display: none;"></div>
+                </div>
+                <div class="input-section">
+                    <input type="file" id="fileInput" accept=".pdf, .jpg, .jpeg, .png">
+                    <textarea id="userInput" placeholder="Type your message here..."></textarea>
+                    <button id="sendButton">Send</button>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script>
+        document.getElementById('fileInput').addEventListener('change', function () {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('file', file);
+
+                // Show loading spinner
+                document.getElementById('loadingSpinner').style.display = 'block';
+
+                fetch('/chat', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Hide loading spinner
+                        document.getElementById('loadingSpinner').style.display = 'none';
+
+                        if (data.summary) {
+                            const messagesDiv = document.getElementById('messages');
+                            const summaryHeading = document.createElement('div');
+                            summaryHeading.classList.add('summary-heading');
+                            summaryHeading.innerText = `Summary of ${file.name}:`;
+                            messagesDiv.appendChild(summaryHeading);
+
+                            const summaryDiv = document.createElement('div');
+                            summaryDiv.classList.add('ai-message');
+                            summaryDiv.innerHTML = formatSummary(data.summary);
+                            messagesDiv.appendChild(summaryDiv);
+                        } else {
+                            alert('Error summarizing document');
+                        }
+                    })
+                    .catch(error => {
+                        // Hide loading spinner
+                        document.getElementById('loadingSpinner').style.display = 'none';
+                        console.error('Error:', error);
+                    });
+            }
+        });
+
+        document.getElementById('sendButton').addEventListener('click', function () {
+            const userInput = document.getElementById('userInput').value;
+            if (userInput) {
+                const formData = new FormData();
+                formData.append('message', userInput);
+
+                // Show loading spinner
+                document.getElementById('loadingSpinner').style.display = 'block';
+
+                fetch('/chat', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Hide loading spinner
+                        document.getElementById('loadingSpinner').style.display = 'none';
+
+                        if (data.response) {
+                            const messagesDiv = document.getElementById('messages');
+                            const userMessageDiv = document.createElement('div');
+                            userMessageDiv.classList.add('user-message');
+                            userMessageDiv.innerText = userInput;
+                            messagesDiv.appendChild(userMessageDiv);
+
+                            const aiMessageDiv = document.createElement('div');
+                            aiMessageDiv.classList.add('ai-message');
+                            aiMessageDiv.innerHTML = formatSummary(data.response);
+                            messagesDiv.appendChild(aiMessageDiv);
+
+                            document.getElementById('userInput').value = '';
+                        } else {
+                            alert('Error getting response from AI');
+                        }
+                    })
+                    .catch(error => {
+                        // Hide loading spinner
+                        document.getElementById('loadingSpinner').style.display = 'none';
+                        console.error('Error:', error);
+                    });
+            }
+        });
+
+        function formatSummary(summary) {
+            // Replace *text* with <b>text</b>
+            summary = summary.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+                .replace(/\*(.*?)\*/g, '<b>$1</b>');
+
+            // Replace newlines with <br> for proper line breaks
+            summary = summary.replace(/\n/g, '<br>');
+
+            // Handle bullet points and numbered lists
+            summary = summary.replace(/(\d+)\.\s/g, '<br>$1. ')
+                .replace(/\*\s/g, '<br>* ');
+
+            return summary;
+        }
+    </script>
+</body>
+
+</html>

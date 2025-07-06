@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legalizer - AI Legal Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Legalizer Logo">
+            <span>Legalizer</span>
+        </div>
+        <button class="register-btn"><a href="chat.html"></a>Register</button>
+    </header>
+
+    <section class="hero">
+        <div class="text">
+            <h4>AI LEGAL ASSISTANT</h4>
+            <h1>Clarity in Every <br><span>Clause</span></h1>
+            <p>Legalizer is your AI-powered assistant for summarizing legal documents and answering legal queries with
+                accuracy and clarity.</p>
+            <button class="start-btn"><a href="chat.html">Start Consultation</a></button>
+            <div class="tags">
+                <span>Legal Summarization</span>
+                <span>Contract Analysis</span>
+                <span>AI Legal Queries</span>
+                <span>Compliance Assistance</span>
+                <span>Case Law Insights</span>
+            </div>
+        </div>
+        <div class="image">
+            <img src="{{ url_for('static', filename='lady_justice_green.png') }}" alt="Lady Justice">
+        </div>
+    </section>
+</body>
+
+</html>
